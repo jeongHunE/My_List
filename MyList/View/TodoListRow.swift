@@ -12,14 +12,19 @@ struct TodoListRow: View {
     
     var body: some View {
         HStack {
-            Button(action: {}, label: {
+            /*Button(action: {}, label: {
                 Image(systemName: "circle")
-            })
+            })*/
             Text(todo.title)
-                .font(.title3)
             Spacer()
         }
         .padding()
+        //.contentShape(Rectangle())    //HStack 전체에서 이벤트 감지
+        //.onTapGesture(perform: didTapRow)
+    }
+    
+    private func didTapRow() {
+        print("touch")
     }
 }
 
