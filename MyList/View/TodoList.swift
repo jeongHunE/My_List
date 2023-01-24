@@ -9,38 +9,59 @@ import SwiftUI
 
 struct TodoList: View {
     @EnvironmentObject var modelData: ModelData
+    @State private var showNew: Bool = false
     
     var body: some View {
         VStack {
             NavigationView {
                 List {
-                    ForEach($modelData.todo) { $todo in
+                    ForEach($modelData.todoList) { $todo in
                         HStack {
                             CompletedButton(isCompleted: $todo.completed)
                                 .onTapGesture {    //touch event
                                     todo.completed.toggle()
                                 }
-                            NavigationLink(destination: TodoDetail(todo: todo), label: {
-                                Text(todo.title)
-                                    .font(.title3)
+                            NavigationLink(destination: TodoDetail(todo: todo, date: endTime(todo.date)), label: {
+                                VStack(alignment: .leading) {
+                                    Text(todo.title)
+                                        .font(.title2)
+                                        .padding(.bottom, 2)
+                                    Text(endTime(todo.date))
+                                        .foregroundColor(.gray)
+                                        .font(.subheadline)
+                                }
                             })
                         }
-                        .padding()
+                        .listRowSeparator(.visible)    //행 분리 선
                     }
                     .onDelete(perform: removeRows)
                 }
-                .navigationTitle("My Todo List")
+                .navigationTitle("Todo List")
+                .background(
+                    NavigationLink(destination: NewTodo(), isActive: $showNew) {}
+                )
                 .toolbar {
-                    Button("add") {}
-                        .offset(x: -15 ,y:45)
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Button("Add", action: {
+                            showNew.toggle()
+                        })
                         .font(.title3)
+                        //.offset(x: -13, y: 45)
+                    }
                 }
             }
         }
     }
     
     func removeRows(at offsets: IndexSet) {
-        modelData.todo.remove(atOffsets: offsets)
+        modelData.todoList.remove(atOffsets: offsets)
+    }
+    
+    func endTime(_ date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy년 MM월 dd일 HH시mm분"
+        
+        return formatter.string(from: date as Date)
     }
 }
 

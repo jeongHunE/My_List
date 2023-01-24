@@ -9,5 +9,5 @@ import Foundation
 import Combine
 
 final class ModelData: ObservableObject {
-    @Published var todo: [Todo] = [firstTodo, secondTodo]
+    @Published var todoList: [Todo] = [firstTodo, secondTodo]
 }

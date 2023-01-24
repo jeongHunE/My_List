@@ -12,8 +12,9 @@ struct CompletedButton: View {
     
     var body: some View {
         Image(systemName: isCompleted
-              ? "checkmark.square"
-              : "square")
+              ? "checkmark.circle.fill"
+              : "circle")
+        .font(.system(size: 25))
     }
 }
 

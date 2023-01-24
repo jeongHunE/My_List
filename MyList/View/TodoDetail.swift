@@ -8,15 +8,17 @@
 import SwiftUI
 
 struct TodoDetail: View {
-    var todo: Todo
+    @State var todo: Todo
+    let date: String
     
     var body: some View {
         ScrollView {
             VStack {
                 HStack {
                     Text(todo.title)
-                        .font(.title)
+                        .font(.largeTitle)
                         .fontWeight(.bold)
+                    CompletedButton(isCompleted: $todo.completed)
                     Spacer()
                 }
                 Divider()
@@ -24,11 +26,11 @@ struct TodoDetail: View {
                 VStack {
                     HStack {
                         Text("시간")
-                            .font(.title2)
+                            .font(.title)
                         Spacer()
                     }
                     HStack {
-                        Text("시간대")
+                        Text(date)
                         Spacer()
                     }
                 }
@@ -37,7 +39,7 @@ struct TodoDetail: View {
                 VStack {
                     HStack {
                         Text("메모")
-                            .font(.title2)
+                            .font(.title)
                         Spacer()
                     }
                     HStack {
@@ -55,8 +57,16 @@ struct TodoDetail: View {
 }
 
 struct TodoDetail_Previews: PreviewProvider {
+    static func endTime(_ date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy년 MM월 dd일 HH시mm분"
+        
+        return formatter.string(from: date as Date)
+    }
+    
+    
     static var previews: some View {
-        TodoDetail(todo: ModelData().todo[0])
+        TodoDetail(todo: ModelData().todoList[0], date: endTime(ModelData().todoList[0].date))
             .environmentObject(ModelData())
     }
 }
