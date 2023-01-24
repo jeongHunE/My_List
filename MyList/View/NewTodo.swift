@@ -9,10 +9,10 @@ import SwiftUI
 
 struct NewTodo: View {
     @EnvironmentObject var modelData: ModelData
-    @State var title: String = ""
-    @State var description: String = ""
-    @State var date: Date = Date()
-    @State var showAlert: Bool = false
+    @State private var title: String = ""
+    @State private var description: String = ""
+    @State private var date: Date = Date()
+    @State private var showAlert: Bool = false
     
     var body: some View {
         VStack {

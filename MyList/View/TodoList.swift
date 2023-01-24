@@ -25,9 +25,9 @@ struct TodoList: View {
                                 VStack(alignment: .leading) {
                                     Text(todo.title)
                                         .font(.title2)
-                                        .padding(.bottom, 2)
+                                        .padding(.bottom, 1)
                                     Text(endTime(todo.date))
-                                        .foregroundColor(.gray)
+                                        .foregroundColor(.black)
                                         .font(.subheadline)
                                 }
                             })
@@ -35,6 +35,7 @@ struct TodoList: View {
                         .listRowSeparator(.visible)    //행 분리 선
                     }
                     .onDelete(perform: removeRows)
+                    .listRowBackground(Color.white)    //row background color
                 }
                 .navigationTitle("Todo List")
                 .background(
@@ -42,13 +43,16 @@ struct TodoList: View {
                 )
                 .toolbar {
                     ToolbarItem(placement: .navigationBarTrailing) {
-                        Button("Add", action: {
-                            showNew.toggle()
-                        })
-                        .font(.title3)
-                        //.offset(x: -13, y: 45)
+                        Image(systemName: "plus.circle")
+                            .onTapGesture {
+                                showNew.toggle()
+                            }
+                            .font(.system(size: 25))
+                            //.offset(x: -13, y: 45)
                     }
                 }
+                .scrollContentBackground(.hidden)    //list default background remove
+                .background(Image("background"))
             }
         }
     }
@@ -61,7 +65,7 @@ struct TodoList: View {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy년 MM월 dd일 HH시mm분"
         
-        return formatter.string(from: date as Date)
+        return formatter.string(from: date)
     }
 }
 
