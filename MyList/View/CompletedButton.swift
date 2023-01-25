@@ -14,6 +14,7 @@ struct CompletedButton: View {
         Image(systemName: isCompleted
               ? "checkmark.circle.fill"
               : "circle")
+        .foregroundColor(.black)
         .font(.system(size: 25))
     }
 }

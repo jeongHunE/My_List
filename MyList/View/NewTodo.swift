@@ -13,6 +13,7 @@ struct NewTodo: View {
     @State private var description: String = ""
     @State private var date: Date = Date()
     @State private var showAlert: Bool = false
+    @Binding var showNew: Bool
     
     var body: some View {
         VStack {
@@ -27,7 +28,7 @@ struct NewTodo: View {
             Divider()
                 
             TextField("메모", text: $description)
-                .font(.title)
+                .font(.title3)
                 .padding()
                 
             Spacer()
@@ -37,8 +38,11 @@ struct NewTodo: View {
                 } else {
                     addNewTodo()
                 }
+                showNew.toggle()
             })
             .font(.title2)
+            .foregroundColor(.black)
+            .buttonStyle(.bordered)
             .alert("제목을 입력하세요", isPresented: $showAlert) {
                 Button("확인", action: {})
             }
@@ -60,7 +64,7 @@ struct NewTodo: View {
 
 struct NewTodo_Previews: PreviewProvider {
     static var previews: some View {
-        NewTodo()
+        NewTodo(showNew: .constant(true))
             .environmentObject(ModelData())
     }
 }
