@@ -8,51 +8,71 @@
 import SwiftUI
 
 struct TodoDetail: View {
-    @State var todo: Todo
+    @EnvironmentObject var modelData: ModelData
+    @Binding var showDetail: Bool
+    var todo: Todo
     let date: String
+    let impactHeavy = UIImpactFeedbackGenerator(style: .medium)
+    
+    var todoIndex: Int {
+        modelData.todoList.firstIndex(where: { $0.id == todo.id})!
+    }
     
     var body: some View {
-        ScrollView {
+        VStack {
+            HStack {
+                CompletedButton(isCompleted: $modelData.todoList[todoIndex].completed)
+                    .onTapGesture {    //touch event
+                        modelData.todoList[todoIndex].completed.toggle()
+                        impactHeavy.impactOccurred()    //haptic feedback
+                    }
+                TextField(todo.title,
+                          text: $modelData.todoList[todoIndex].title,
+                          axis: .vertical)    //aixs: multiline
+                .font(.largeTitle)
+            }
+            Divider()
+            
+            HStack {
+                Text("시간")
+                    .font(.title)
+                Spacer()
+                Text(date)
+            }
+            Divider()
+            
             VStack {
                 HStack {
-                    Text(todo.title)
-                        .font(.largeTitle)
-                        .fontWeight(.bold)
-                    CompletedButton(isCompleted: $todo.completed)
+                    Text("메모")
+                        .font(.title)
                     Spacer()
                 }
-                Divider()
-                
-                VStack {
-                    HStack {
-                        Text("시간")
-                            .font(.title)
-                        Spacer()
-                    }
-                    HStack {
-                        Text(date)
-                        Spacer()
-                    }
+                HStack {
+                    TextField(todo.description, text:$modelData.todoList[todoIndex].description,
+                              axis: .vertical)
+                    Spacer()
                 }
-                Divider()
-                
-                VStack {
-                    HStack {
-                        Text("메모")
-                            .font(.title)
-                        Spacer()
-                    }
-                    HStack {
-                        Text(todo.description)
-                        Spacer()
-                    }
-                }
-                Spacer()
-                
             }
-            .padding()
+            Spacer()
+            
+            Button(action: {
+                //removeTodo(todoIndex)
+                showDetail.toggle()
+            }) {
+                HStack {
+                    Image(systemName: "trash")
+                    Text("삭제")
+                        .fontWeight(.semibold)
+                }
+                .font(.title2)
+            }
         }
+        .padding()
         .navigationBarTitleDisplayMode(.inline)
+    }
+    
+    func removeTodo(_ index: Int) {
+        modelData.todoList.remove(at: index)
     }
 }
 
@@ -66,7 +86,7 @@ struct TodoDetail_Previews: PreviewProvider {
     
     
     static var previews: some View {
-        TodoDetail(todo: ModelData().todoList[0], date: endTime(ModelData().todoList[0].date))
+        TodoDetail(showDetail: .constant(true), todo: ModelData().todoList[0], date: endTime(ModelData().todoList[0].date))
             .environmentObject(ModelData())
     }
 }

@@ -17,22 +17,29 @@ struct NewTodo: View {
     
     var body: some View {
         VStack {
-            TextField("제목", text: $title)
+            TextField("제목",
+                      text: $title,
+                      axis: .vertical)    //axis: multiline
                 .font(.largeTitle)
+                .fontWeight(.bold)
                 .padding()
             Divider()
                 
-            DatePicker("날짜 선택", selection: $date)
+            DatePicker("시간 선택",
+                       selection: $date,
+                       displayedComponents: [.date, .hourAndMinute])
                 .font(.title2)
                 .padding()
             Divider()
                 
-            TextField("메모", text: $description)
+            TextField("메모",
+                      text: $description,
+                      axis: .vertical)
                 .font(.title3)
                 .padding()
                 
             Spacer()
-            Button("Add", action: {
+            Button("추가", action: {
                 if title == "" {
                     noTitle()
                 } else {
@@ -41,13 +48,14 @@ struct NewTodo: View {
                 showNew.toggle()
             })
             .font(.title2)
-            .foregroundColor(.black)
+            .foregroundColor(.accentColor)
             .buttonStyle(.bordered)
             .alert("제목을 입력하세요", isPresented: $showAlert) {
                 Button("확인", action: {})
             }
         }
         .padding()
+        .navigationTitle("새로운 Todo 추가")
         .navigationBarTitleDisplayMode(.inline)
     }
     
