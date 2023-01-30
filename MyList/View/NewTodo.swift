@@ -21,7 +21,6 @@ struct NewTodo: View {
                       text: $title,
                       axis: .vertical)    //axis: multiline
                 .font(.largeTitle)
-                .fontWeight(.bold)
                 .padding()
             Divider()
                 

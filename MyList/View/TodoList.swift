@@ -7,10 +7,19 @@
 
 import SwiftUI
 
+struct LazyView<Content: View>: View {
+    let build: () -> Content
+    init(_ build: @autoclosure @escaping () -> Content) {
+        self.build = build
+    }
+    var body: Content {
+        build()
+    }
+}
+
 struct TodoList: View {
     @EnvironmentObject var modelData: ModelData
     @State private var showNew: Bool = false
-    @State private var showDetail: Bool = false
     let impactHeavy = UIImpactFeedbackGenerator(style: .medium)    //haptic feedback
     
     var body: some View {
@@ -23,7 +32,7 @@ struct TodoList: View {
                                 todo.completed.toggle()
                                 impactHeavy.impactOccurred()    //haptic feedback
                             }
-                        NavigationLink(destination: TodoDetail(showDetail: $showDetail, todo: todo, date: endTime(todo.date)), isActive: $showDetail, label: {
+                        NavigationLink(destination: LazyView(TodoDetail(todo: todo, date: endTime(todo.date))), label: {
                             VStack(alignment: .leading) {
                                 Text(todo.title)
                                     .font(.subheadline)
@@ -58,21 +67,16 @@ struct TodoList: View {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     HStack {
                         Image(systemName: "plus.circle.fill")
-                            .font(.system(size: 30))
+                            .font(.system(size: 25))
                             .foregroundColor(.white)
                     }
                     .onTapGesture {
                         showNew.toggle()
                     }
                 }
-                /*ToolbarItem(placement: .navigation) {
-                    Text(today(Date()))
-                        .font(.title3)
-                }*/
             }
             .scrollContentBackground(.hidden)    //list default background remove
             .background(Image("background"))
-            //.padding(.top, 0)    //title과 list 사이 간격
         }
     }
     
