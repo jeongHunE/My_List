@@ -7,16 +7,6 @@
 
 import SwiftUI
 
-struct LazyView<Content: View>: View {
-    let build: () -> Content
-    init(_ build: @autoclosure @escaping () -> Content) {
-        self.build = build
-    }
-    var body: Content {
-        build()
-    }
-}
-
 struct TodoList: View {
     @EnvironmentObject var modelData: ModelData
     @State private var showNew: Bool = false
@@ -32,7 +22,7 @@ struct TodoList: View {
                                 todo.completed.toggle()
                                 impactHeavy.impactOccurred()    //haptic feedback
                             }
-                        NavigationLink(destination: LazyView(TodoDetail(todo: todo, date: endTime(todo.date))), label: {
+                        NavigationLink(destination: TodoDetail(todo: todo, date: endTime(todo.date)), label: {
                             VStack(alignment: .leading) {
                                 Text(todo.title)
                                     .font(.subheadline)
