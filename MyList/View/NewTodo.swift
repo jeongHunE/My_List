@@ -13,6 +13,7 @@ struct NewTodo: View {
     @State private var description: String = ""
     @State private var date: Date = Date()
     @State private var showAlert: Bool = false
+    @State private var showDate: Bool = false
     @Binding var showNew: Bool
     
     var body: some View {
@@ -24,11 +25,25 @@ struct NewTodo: View {
                 .padding()
             Divider()
                 
-            DatePicker("시간 선택",
+            /*DatePicker("시간 선택",
                        selection: $date,
                        displayedComponents: [.date, .hourAndMinute])
                 .font(.title2)
-                .padding()
+                .padding()*/
+            VStack {
+                Toggle(isOn: $showDate) {
+                    Text("시간 선택")
+                        .font(.title2)
+                }
+                if showDate {
+                    DatePicker("",
+                               selection: $date,
+                               displayedComponents: [.date, .hourAndMinute]
+                    )
+                }
+            }
+            .padding()
+            
             Divider()
                 
             TextField("메모",
@@ -43,8 +58,8 @@ struct NewTodo: View {
                     noTitle()
                 } else {
                     addNewTodo()
+                    showNew.toggle()
                 }
-                showNew.toggle()
             })
             .font(.title2)
             .foregroundColor(.accentColor)
@@ -59,7 +74,7 @@ struct NewTodo: View {
     }
     
     func addNewTodo() {
-        let todo: Todo = Todo(title: title, description: description, completed: false, date: date, id: UUID())
+        let todo: Todo = Todo(title: title, description: description, completed: false, showDate: showDate, date: date, id: UUID())
         
         modelData.todoList.append(todo)
     }

@@ -22,15 +22,20 @@ struct TodoList: View {
                                 todo.completed.toggle()
                                 impactHeavy.impactOccurred()    //haptic feedback
                             }
-                        NavigationLink(destination: TodoDetail(todo: todo, date: endTime(todo.date)), label: {
+                        NavigationLink(destination: TodoDetail(todo: todo), label: {
                             VStack(alignment: .leading) {
                                 Text(todo.title)
                                     .font(.subheadline)
                                     .padding(.bottom, 1)
                                     .foregroundColor(.black)
-                                Text(endTime(todo.date))
-                                    .foregroundColor(.black)
-                                    .font(.caption)
+                                if todo.showDate {
+                                    Text(endTime(todo.date))
+                                        .foregroundColor(.black)
+                                        .font(.caption)
+                                } else {
+                                    Text(" ")
+                                        .font(.caption)
+                                }
                             }
                         })
                     }
@@ -81,7 +86,7 @@ struct TodoList: View {
         return formatter.string(from: date)
     }
     
-    func today(_ date: Date) -> String {
+    func today(_ date: Date) -> String {    //나중에 title 옆에 현재 날짜를 표실하기 위한 format
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy년 MM월 dd일 EE"
         

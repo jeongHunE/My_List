@@ -11,7 +11,6 @@ import SwiftUI
 struct TodoDetail: View {
     @EnvironmentObject var modelData: ModelData
     var todo: Todo
-    let date: String
     let impactHeavy = UIImpactFeedbackGenerator(style: .medium)
     
     var todoIndex: Int? {
@@ -36,17 +35,28 @@ struct TodoDetail: View {
                 Divider()
                 
                 HStack {
-                    Text("시간")
-                        .font(.title)
-                    Spacer()
-                    Text(date)
+                    /*Text("시간")
+                     .font(.title)
+                     Spacer()
+                     Text(endTime(todo.date))*/
+                    VStack {
+                        Toggle("시간", isOn: $modelData.todoList[todoIndex].showDate)
+                            .font(.title2)
+                        
+                        if todo.showDate {
+                            DatePicker("",
+                                       selection: $modelData.todoList[todoIndex].date,
+                                       displayedComponents: [.date, .hourAndMinute]
+                            )
+                        }
+                    }
                 }
                 Divider()
                 
                 VStack {
                     HStack {
                         Text("메모")
-                            .font(.title)
+                            .font(.title3)
                         Spacer()
                     }
                     HStack {
@@ -63,6 +73,13 @@ struct TodoDetail: View {
             EmptyView()
         }
     }
+    
+    func endTime(_ date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy년 MM월 dd일 HH시mm분"
+        
+        return formatter.string(from: date as Date)
+    }
 }
 
 struct TodoDetail_Previews: PreviewProvider {
@@ -75,7 +92,7 @@ struct TodoDetail_Previews: PreviewProvider {
     
     
     static var previews: some View {
-        TodoDetail(todo: ModelData().todoList[0], date: endTime(ModelData().todoList[0].date))
+        TodoDetail(todo: ModelData().todoList[1])
             .environmentObject(ModelData())
     }
 }
