@@ -17,27 +17,43 @@ struct TodoList: View {
             List {
                 ForEach($modelData.todoList) { $todo in
                     HStack {
+                        //complete button
                         CompletedButton(isCompleted: $todo.completed)
                             .onTapGesture {    //touch event
                                 todo.completed.toggle()
                                 impactHeavy.impactOccurred()    //haptic feedback
                             }
-                        NavigationLink(destination: TodoDetail(todo: todo), label: {
-                            VStack(alignment: .leading) {
-                                Text(todo.title)
-                                    .font(.subheadline)
-                                    .padding(.bottom, 1)
-                                    .foregroundColor(.black)
-                                if todo.showDate {
-                                    Text(endTime(todo.date))
+                        //navigation link
+                        //to remove arrow, overlay the HStack over the navigationlink label
+                        ZStack {
+                            NavigationLink(destination: TodoDetail(todo: todo), label: {})
+                            .opacity(0.0)    //투명도
+                            
+                            HStack {
+                                VStack(alignment: .leading) {
+                                    Text(todo.title)
+                                        .font(.subheadline)
+                                        .padding(.bottom, 1)
                                         .foregroundColor(.black)
-                                        .font(.caption)
-                                } else {
-                                    Text(" ")
-                                        .font(.caption)
+                                    if todo.showDate {
+                                        Text(endTime(todo.date))
+                                            .foregroundColor(.black)
+                                            .font(.caption)
+                                    } else {
+                                        Text(" ")
+                                            .font(.caption)
+                                    }
                                 }
+                                Spacer()
                             }
-                        })
+                            .padding(.leading, 8)
+                        }
+                        //important button
+                        ImportantButton(isSet: $todo.isImportant)
+                            .onTapGesture {
+                                todo.isImportant.toggle()
+                                impactHeavy.impactOccurred()    //haptic feedback
+                            }
                     }
                     .listRowBackground(    //row design
                         RoundedRectangle(cornerRadius: 20)

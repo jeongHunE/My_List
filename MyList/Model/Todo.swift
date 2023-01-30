@@ -14,4 +14,5 @@ struct Todo: Hashable, Identifiable {    //ForEach를 위해 Hashable protocol �
     var showDate: Bool         //날짜 선택 여부
     var date: Date             //날짜
     var id: UUID               //swift에서 제공하는 identifiable한 id
+    var isImportant: Bool      //별 표시 여부
 }

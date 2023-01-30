@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5C49BA732987E6B900B96C2B /* ImportantButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C49BA722987E6B900B96C2B /* ImportantButton.swift */; };
 		5C6FF30C297D5D22009F9020 /* ModelData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6FF30B297D5D22009F9020 /* ModelData.swift */; };
 		5C6FF30F297D62DC009F9020 /* CompletedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6FF30E297D62DC009F9020 /* CompletedButton.swift */; };
 		5C6FF311297F79BA009F9020 /* NewTodo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6FF310297F79BA009F9020 /* NewTodo.swift */; };
@@ -22,6 +23,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5C49BA722987E6B900B96C2B /* ImportantButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportantButton.swift; sourceTree = "<group>"; };
 		5C6FF30B297D5D22009F9020 /* ModelData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelData.swift; sourceTree = "<group>"; };
 		5C6FF30E297D62DC009F9020 /* CompletedButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletedButton.swift; sourceTree = "<group>"; };
 		5C6FF310297F79BA009F9020 /* NewTodo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTodo.swift; sourceTree = "<group>"; };
@@ -56,6 +58,7 @@
 				5C6FF310297F79BA009F9020 /* NewTodo.swift */,
 				5C6FF30E297D62DC009F9020 /* CompletedButton.swift */,
 				5C6FF3142980D3D0009F9020 /* BackgroundImage.swift */,
+				5C49BA722987E6B900B96C2B /* ImportantButton.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -183,6 +186,7 @@
 				5C6FF3152980D3D0009F9020 /* BackgroundImage.swift in Sources */,
 				5C92B7B629757B6700EF8572 /* ContentView.swift in Sources */,
 				5C6FF311297F79BA009F9020 /* NewTodo.swift in Sources */,
+				5C49BA732987E6B900B96C2B /* ImportantButton.swift in Sources */,
 				5C6FF30C297D5D22009F9020 /* ModelData.swift in Sources */,
 				5C6FF30F297D62DC009F9020 /* CompletedButton.swift in Sources */,
 				5C92B7B429757B6700EF8572 /* MyListApp.swift in Sources */,

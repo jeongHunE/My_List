@@ -74,7 +74,7 @@ struct NewTodo: View {
     }
     
     func addNewTodo() {
-        let todo: Todo = Todo(title: title, description: description, completed: false, showDate: showDate, date: date, id: UUID())
+        let todo: Todo = Todo(title: title, description: description, completed: false, showDate: showDate, date: date, id: UUID(), isImportant: false)
         
         modelData.todoList.append(todo)
     }

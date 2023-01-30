@@ -31,6 +31,11 @@ struct TodoDetail: View {
                               axis: .vertical)    //aixs: multiline
                     .font(.largeTitle)
                     Spacer()
+                    ImportantButton(isSet: $modelData.todoList[todoIndex].isImportant)
+                        .onTapGesture {
+                            modelData.todoList[todoIndex].isImportant.toggle()
+                            impactHeavy.impactOccurred()
+                        }
                 }
                 Divider()
                 
@@ -92,7 +97,7 @@ struct TodoDetail_Previews: PreviewProvider {
     
     
     static var previews: some View {
-        TodoDetail(todo: ModelData().todoList[1])
+        TodoDetail(todo: ModelData().todoList[0])
             .environmentObject(ModelData())
     }
 }
