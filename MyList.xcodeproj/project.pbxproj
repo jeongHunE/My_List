@@ -17,7 +17,6 @@
 		5C92B7B829757B6800EF8572 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5C92B7B729757B6800EF8572 /* Assets.xcassets */; };
 		5C92B7BB29757B6800EF8572 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5C92B7BA29757B6800EF8572 /* Preview Assets.xcassets */; };
 		5C92B7C229757B7600EF8572 /* TodoList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C92B7C129757B7600EF8572 /* TodoList.swift */; };
-		5C92B7C829757B9100EF8572 /* Todo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C92B7C629757B9100EF8572 /* Todo.swift */; };
 		5C92B7C929757B9100EF8572 /* SampleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C92B7C729757B9100EF8572 /* SampleData.swift */; };
 		5C92B7CB297587BF00EF8572 /* TodoDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C92B7CA297587BF00EF8572 /* TodoDetail.swift */; };
 /* End PBXBuildFile section */
@@ -34,7 +33,6 @@
 		5C92B7B729757B6800EF8572 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5C92B7BA29757B6800EF8572 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		5C92B7C129757B7600EF8572 /* TodoList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TodoList.swift; sourceTree = "<group>"; };
-		5C92B7C629757B9100EF8572 /* Todo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Todo.swift; sourceTree = "<group>"; };
 		5C92B7C729757B9100EF8572 /* SampleData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SampleData.swift; sourceTree = "<group>"; };
 		5C92B7CA297587BF00EF8572 /* TodoDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoDetail.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -103,7 +101,6 @@
 		5C92B7C529757B9100EF8572 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				5C92B7C629757B9100EF8572 /* Todo.swift */,
 				5C92B7C729757B9100EF8572 /* SampleData.swift */,
 				5C6FF30B297D5D22009F9020 /* ModelData.swift */,
 			);
@@ -190,7 +187,6 @@
 				5C6FF30C297D5D22009F9020 /* ModelData.swift in Sources */,
 				5C6FF30F297D62DC009F9020 /* CompletedButton.swift in Sources */,
 				5C92B7B429757B6700EF8572 /* MyListApp.swift in Sources */,
-				5C92B7C829757B9100EF8572 /* Todo.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

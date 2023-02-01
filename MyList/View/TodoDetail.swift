@@ -29,7 +29,8 @@ struct TodoDetail: View {
                     TextField(todo.title,
                               text: $modelData.todoList[todoIndex].title,
                               axis: .vertical)    //aixs: multiline
-                    .font(.largeTitle)
+                        .font(.largeTitle)
+                        .strikethrough(modelData.todoList[todoIndex].completed)    //취소선
                     Spacer()
                     ImportantButton(isSet: $modelData.todoList[todoIndex].isImportant)
                         .onTapGesture {
@@ -37,16 +38,18 @@ struct TodoDetail: View {
                             impactHeavy.impactOccurred()
                         }
                 }
+                .padding(.bottom)
                 Divider()
                 
                 HStack {
-                    /*Text("시간")
-                     .font(.title)
-                     Spacer()
-                     Text(endTime(todo.date))*/
                     VStack {
-                        Toggle("시간", isOn: $modelData.todoList[todoIndex].showDate)
-                            .font(.title2)
+                        HStack {
+                            Image(systemName: "calendar")
+                            Toggle("시간", isOn: $modelData.todoList[todoIndex].showDate)
+                                .font(.title2)
+                        }
+                        .font(.title2)
+                        .padding([.top, .bottom])
                         
                         if todo.showDate {
                             DatePicker("",
@@ -60,19 +63,22 @@ struct TodoDetail: View {
                 
                 VStack {
                     HStack {
+                        Image(systemName: "note")
                         Text("메모")
-                            .font(.title3)
                         Spacer()
                     }
+                    .font(.title2)
                     HStack {
                         TextField(todo.description, text:$modelData.todoList[todoIndex].description,
                                   axis: .vertical)
                         Spacer()
                     }
                 }
+                .padding(.top)
                 Spacer()
             }
             .padding()
+            .navigationTitle("자세히 보기")
             .navigationBarTitleDisplayMode(.inline)
         } else {
             EmptyView()
@@ -88,14 +94,6 @@ struct TodoDetail: View {
 }
 
 struct TodoDetail_Previews: PreviewProvider {
-    static func endTime(_ date: Date) -> String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy년 MM월 dd일 HH시mm분"
-        
-        return formatter.string(from: date as Date)
-    }
-    
-    
     static var previews: some View {
         TodoDetail(todo: ModelData().todoList[0])
             .environmentObject(ModelData())

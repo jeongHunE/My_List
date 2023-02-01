@@ -24,12 +24,6 @@ struct NewTodo: View {
                 .font(.largeTitle)
                 .padding()
             Divider()
-                
-            /*DatePicker("시간 선택",
-                       selection: $date,
-                       displayedComponents: [.date, .hourAndMinute])
-                .font(.title2)
-                .padding()*/
             VStack {
                 Toggle(isOn: $showDate) {
                     Text("시간 선택")

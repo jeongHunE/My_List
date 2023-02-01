@@ -1,6 +1,5 @@
 //
 //  TodoList.swift
-//  Snail_ToDo
 //
 //  Created by 이정훈 on 2023/01/16.
 //
@@ -32,16 +31,26 @@ struct TodoList: View {
                             HStack {
                                 VStack(alignment: .leading) {
                                     Text(todo.title)
-                                        .font(.subheadline)
+                                        .font(.title2)
                                         .padding(.bottom, 1)
                                         .foregroundColor(.black)
+                                        .strikethrough(todo.completed)
+                                    
                                     if todo.showDate {
-                                        Text(endTime(todo.date))
-                                            .foregroundColor(.black)
-                                            .font(.caption)
+                                        HStack {
+                                            Image(systemName: "calendar")
+                                            Text(endTime(todo.date))
+                                        }
+                                        .font(.footnote)
+                                        .foregroundColor(.black)
                                     } else {
-                                        Text(" ")
-                                            .font(.caption)
+                                        HStack {
+                                            Image(systemName: "calendar")
+                                            Text("-")
+                                                .foregroundColor(.black)
+                                        }
+                                        .font(.footnote)
+                                        .foregroundColor(.black)
                                     }
                                 }
                                 Spacer()
@@ -56,7 +65,7 @@ struct TodoList: View {
                             }
                     }
                     .listRowBackground(    //row design
-                        RoundedRectangle(cornerRadius: 20)
+                        RoundedRectangle(cornerRadius: 10)
                             .foregroundColor(.white)
                             .padding(EdgeInsets(
                                 top: 2,
@@ -68,7 +77,7 @@ struct TodoList: View {
                     )
                     .listRowSeparator(.hidden)    //행 분리 선
                 }
-                .onDelete(perform: removeRows)    //remove row when slide
+                .onDelete(perform: removeRows)    //remove row when slide a row
             }
             .navigationTitle("Todo List")
             .background(
