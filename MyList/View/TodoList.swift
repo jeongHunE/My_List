@@ -9,61 +9,23 @@ import SwiftUI
 struct TodoList: View {
     @EnvironmentObject var modelData: ModelData
     @State private var showNew: Bool = false
-    let impactHeavy = UIImpactFeedbackGenerator(style: .medium)    //haptic feedback
+    @FocusState var isFocused: Bool
     
     var body: some View {
-        NavigationView {
-            List {
-                ForEach($modelData.todoList) { $todo in
-                    HStack {
-                        //complete button
-                        CompletedButton(isCompleted: $todo.completed)
-                            .onTapGesture {    //touch event
-                                todo.completed.toggle()
-                                impactHeavy.impactOccurred()    //haptic feedback
-                            }
-                        //navigation link
-                        //to remove arrow, overlay the HStack over the navigationlink label
+        ZStack {
+            NavigationView {
+                List {
+                    ForEach($modelData.todoList) { $todo in
                         ZStack {
+                            //navigation link
+                            //to remove arrow, overlay the HStack over the navigationlink label
                             NavigationLink(destination: TodoDetail(todo: todo), label: {})
-                            .opacity(0.0)    //투명도
-                            
-                            HStack {
-                                VStack(alignment: .leading) {
-                                    Text(todo.title)
-                                        .font(.title2)
-                                        .padding(.bottom, 1)
-                                        .foregroundColor(.black)
-                                        .strikethrough(todo.completed)
-                                    
-                                    if todo.showDate {
-                                        HStack {
-                                            Image(systemName: "calendar")
-                                            Text(endTime(todo.date))
-                                        }
-                                        .font(.footnote)
-                                        .foregroundColor(.black)
-                                    } else {
-                                        HStack {
-                                            Image(systemName: "calendar")
-                                            Text("-")
-                                                .foregroundColor(.black)
-                                        }
-                                        .font(.footnote)
-                                        .foregroundColor(.black)
-                                    }
-                                }
-                                Spacer()
-                            }
-                            .padding(.leading, 8)
+                                .opacity(0.0)    //투명도
+                            ListRow(todo: $todo)
                         }
-                        //important button
-                        ImportantButton(isSet: $todo.isImportant)
-                            .onTapGesture {
-                                todo.isImportant.toggle()
-                                impactHeavy.impactOccurred()    //haptic feedback
-                            }
                     }
+                    .onDelete(perform: removeRows)    //remove row when slide a row
+                    .listRowSeparator(.hidden)    //헹 분리 선 숨김
                     .listRowBackground(    //row design
                         RoundedRectangle(cornerRadius: 10)
                             .foregroundColor(.white)
@@ -73,42 +35,62 @@ struct TodoList: View {
                                 bottom: 5,
                                 trailing: 5
                             )
-                        )
+                            )
                     )
-                    .listRowSeparator(.hidden)    //행 분리 선
                 }
-                .onDelete(perform: removeRows)    //remove row when slide a row
-            }
-            .navigationTitle("Todo List")
-            .background(
-                NavigationLink(destination: NewTodo(showNew: $showNew), isActive: $showNew) {}
-            )
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    HStack {
-                        Image(systemName: "plus.circle.fill")
-                            .font(.system(size: 25))
+                .navigationTitle("Todo List")
+                .background(
+                    Image("background")
+                )
+                .toolbar {
+                    ToolbarItem(placement: .bottomBar) {
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 10)
+                                .frame(width: UIScreen.main.bounds.size.height * 0.4, height: UIScreen.main.bounds.size.height * 0.06)    //기기별 사이즈 인식
+                            HStack {
+                                Image(systemName: "plus")
+                                Text("새로운 Todo 추가")
+                            }
+                            .foregroundColor(.black)
+                        }
+                        .foregroundColor(.white)
+                        .onTapGesture {
+                            showNew.toggle()
+                        }
+                    }
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Image(systemName: "person.circle.fill")
+                            .font(.title2)
                             .foregroundColor(.white)
                     }
-                    .onTapGesture {
-                        showNew.toggle()
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        Image(systemName: "line.3.horizontal")
+                            .font(.title2)
+                            .foregroundColor(.white)
                     }
                 }
+                .scrollContentBackground(.hidden)    //list default background remove
             }
-            .scrollContentBackground(.hidden)    //list default background remove
-            .background(Image("background"))
+            if showNew {
+                ZStack {
+                    RoundedRectangle(cornerRadius: 30)
+                        .foregroundColor(.white)
+                    NewTodo(showNew: $showNew)
+                        //.focused($isFocused)    //textfield focus
+                        /*.onAppear {
+                            self.isFocused = true
+                        }*/
+                }
+                .transition(.move(edge: .bottom))
+                .animation(.easeInOut)
+                .frame(height: 600)
+                .offset(y: UIScreen.main.bounds.size.height * 0.3)
+            }
         }
     }
     
     func removeRows(at offsets: IndexSet) -> Void {
         modelData.todoList.remove(atOffsets: offsets)
-    }
-    
-    func endTime(_ date: Date) -> String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy년 MM월 dd일 HH시mm분"
-        
-        return formatter.string(from: date)
     }
     
     func today(_ date: Date) -> String {    //나중에 title 옆에 현재 날짜를 표실하기 위한 format
@@ -118,6 +100,7 @@ struct TodoList: View {
         return formatter.string(from: date)
     }
 }
+    
 
 struct TodoList_Previews: PreviewProvider {
     static var previews: some View {

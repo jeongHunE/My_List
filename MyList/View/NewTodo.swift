@@ -7,6 +7,10 @@
 
 import SwiftUI
 
+enum Field {
+    case title, description
+}
+
 struct NewTodo: View {
     @EnvironmentObject var modelData: ModelData
     @State private var title: String = ""
@@ -17,54 +21,65 @@ struct NewTodo: View {
     @Binding var showNew: Bool
     
     var body: some View {
-        VStack {
-            TextField("제목",
-                      text: $title,
-                      axis: .vertical)    //axis: multiline
-                .font(.largeTitle)
-                .padding()
-            Divider()
+        ScrollView {
             VStack {
-                Toggle(isOn: $showDate) {
-                    Text("시간 선택")
-                        .font(.title2)
+                Text("새로운 Todo 추가")
+                TextField("제목",
+                          text: $title,
+                          axis: .vertical)    //axis: multiline
+                .font(.title2)
+                .padding()
+                Divider()
+                VStack {
+                    Toggle(isOn: $showDate) {
+                        Text("시간 선택")
+                            .font(.title2)
+                    }
+                    if showDate {
+                        DatePicker("",
+                                   selection: $date,
+                                   displayedComponents: [.date, .hourAndMinute]
+                        )
+                    }
                 }
-                if showDate {
-                    DatePicker("",
-                               selection: $date,
-                               displayedComponents: [.date, .hourAndMinute]
-                    )
-                }
-            }
-            .padding()
-            
-            Divider()
+                .padding()
                 
-            TextField("메모",
-                      text: $description,
-                      axis: .vertical)
+                Divider()
+                
+                TextField("메모",
+                          text: $description,
+                          axis: .vertical)
                 .font(.title3)
                 .padding()
-                
-            Spacer()
-            Button("추가", action: {
-                if title == "" {
-                    noTitle()
-                } else {
-                    addNewTodo()
-                    showNew.toggle()
+                Spacer()
+                .frame(height: 100)
+                HStack {
+                    Button("추가", action: {
+                        if title == "" {
+                            noTitle()
+                        } else {
+                            addNewTodo()
+                            showNew.toggle()
+                        }
+                    })
+                    .font(.title2)
+                    .foregroundColor(.accentColor)
+                    .buttonStyle(.bordered)
+                    .alert("제목을 입력하세요", isPresented: $showAlert) {
+                        Button("확인", action: {})
+                    }
+                    Button("취소", action: {
+                        showNew.toggle()
+                    })
+                    .font(.title2)
+                    .foregroundColor(.accentColor)
+                    .buttonStyle(.bordered)
                 }
-            })
-            .font(.title2)
-            .foregroundColor(.accentColor)
-            .buttonStyle(.bordered)
-            .alert("제목을 입력하세요", isPresented: $showAlert) {
-                Button("확인", action: {})
+                Spacer()
             }
+            .padding()
+            .navigationBarTitleDisplayMode(.inline)
         }
-        .padding()
-        .navigationTitle("새로운 Todo 추가")
-        .navigationBarTitleDisplayMode(.inline)
     }
     
     func addNewTodo() {
