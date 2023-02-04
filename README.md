@@ -23,7 +23,7 @@
   - `ObservableObject` protocol
   - `@Published` property wrapper
 - iOS Application 구조에 대한 이해
-  - `SandBox` Directoriy
+  - `SandBox` Directory`
 - JSON data Encoding, Decoding을 통한 JSON data Parsing
 
 Application 기능 업데이트 내용 지속적으로 추가 예정
