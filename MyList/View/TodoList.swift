@@ -6,10 +6,22 @@
 
 import SwiftUI
 
+enum KeyBoard {
+    case on, off
+}
+
 struct TodoList: View {
     @EnvironmentObject var modelData: ModelData
     @State private var showNew: Bool = false
-    @FocusState var isFocused: Bool
+    @FocusState var keyboard: KeyBoard?   //text field에 focuse를 주기 위한 속성
+    
+    /*var drag: some Gesture {
+        DragGesture()
+            .onEnded({_ in
+                hideKeyboard()
+                showNew.toggle()
+            })
+    }*/
     
     var body: some View {
         ZStack {
@@ -35,7 +47,7 @@ struct TodoList: View {
                                 bottom: 5,
                                 trailing: 5
                             )
-                            )
+                        )
                     )
                 }
                 .navigationTitle("Todo List")
@@ -71,20 +83,23 @@ struct TodoList: View {
                 }
                 .scrollContentBackground(.hidden)    //list default background remove
             }
+            
             if showNew {
                 ZStack {
-                    RoundedRectangle(cornerRadius: 30)
+                    RoundedRectangle(cornerRadius: 25)
                         .foregroundColor(.white)
+                        .shadow(radius: 20)
                     NewTodo(showNew: $showNew)
-                        //.focused($isFocused)    //textfield focus
-                        /*.onAppear {
-                            self.isFocused = true
-                        }*/
+                        .onAppear {
+                            self.keyboard = .on//view가 생성될때 isFocused 값 변경
+                        }
+                        .focused($keyboard, equals: .on)    //isFocused의 값이 .title과 같아지면 textfield focus
                 }
                 .transition(.move(edge: .bottom))
                 .animation(.easeInOut)
-                .frame(height: 600)
+                .frame(height: 750)
                 .offset(y: UIScreen.main.bounds.size.height * 0.3)
+                //.gesture(drag)
             }
         }
     }
