@@ -29,7 +29,7 @@ struct TodoDetail: View {
                     TextField(todo.title,
                               text: $modelData.todoList[todoIndex].title,
                               axis: .vertical)    //aixs: multiline
-                        .font(.largeTitle)
+                        .font(.title2)
                         .strikethrough(modelData.todoList[todoIndex].completed)    //취소선
                     Spacer()
                     ImportantButton(isSet: $modelData.todoList[todoIndex].isImportant)

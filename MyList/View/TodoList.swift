@@ -15,14 +15,6 @@ struct TodoList: View {
     @State private var showNew: Bool = false
     @FocusState var keyboard: KeyBoard?   //text field에 focuse를 주기 위한 속성
     
-    /*var drag: some Gesture {
-        DragGesture()
-            .onEnded({_ in
-                hideKeyboard()
-                showNew.toggle()
-            })
-    }*/
-    
     var body: some View {
         ZStack {
             NavigationView {
@@ -40,6 +32,7 @@ struct TodoList: View {
                     .listRowSeparator(.hidden)    //헹 분리 선 숨김
                     .listRowBackground(    //row design
                         RoundedRectangle(cornerRadius: 10)
+                            .shadow(color: .black, radius: 0.6, x: 4, y: 3)
                             .foregroundColor(.white)
                             .padding(EdgeInsets(
                                 top: 2,
@@ -50,56 +43,39 @@ struct TodoList: View {
                         )
                     )
                 }
-                .navigationTitle("Todo List")
-                .background(
-                    Image("background")
+                .navigationTitle (
+                    Text("Todo List")
                 )
                 .toolbar {
                     ToolbarItem(placement: .bottomBar) {
-                        ZStack {
-                            RoundedRectangle(cornerRadius: 10)
-                                .frame(width: UIScreen.main.bounds.size.height * 0.4, height: UIScreen.main.bounds.size.height * 0.06)    //기기별 사이즈 인식
-                            HStack {
-                                Image(systemName: "plus")
-                                Text("새로운 Todo 추가")
-                            }
-                            .foregroundColor(.black)
-                        }
-                        .foregroundColor(.white)
-                        .onTapGesture {
+                        Button("새로운 Todo 추가") {
                             showNew.toggle()
                         }
+                        .sheet(isPresented: $showNew, content: {
+                            NewTodo(showNew: $showNew)
+                                .onAppear {
+                                    self.keyboard = .on//view가 생성될때 isFocused 값 변경
+                                }
+                                .focused($keyboard, equals: .on)    //isFocused의 값이 .title과 같아지면 textfield focus
+                        })
+                        .buttonStyle(AddButtonStyle())
                     }
                     ToolbarItem(placement: .navigationBarTrailing) {
-                        Image(systemName: "person.circle.fill")
-                            .font(.title2)
-                            .foregroundColor(.white)
+                        HStack {
+                            Image(systemName: "ellipsis.circle.fill")
+                            Image(systemName: "person.circle.fill")
+                        }
+                        .font(.title2)
                     }
                     ToolbarItem(placement: .navigationBarLeading) {
                         Image(systemName: "line.3.horizontal")
                             .font(.title2)
-                            .foregroundColor(.white)
                     }
                 }
+                .background(
+                    Color(red: 247 / 255, green: 247 / 255, blue: 245 / 255)
+                )
                 .scrollContentBackground(.hidden)    //list default background remove
-            }
-            
-            if showNew {
-                ZStack {
-                    RoundedRectangle(cornerRadius: 25)
-                        .foregroundColor(.white)
-                        .shadow(radius: 20)
-                    NewTodo(showNew: $showNew)
-                        .onAppear {
-                            self.keyboard = .on//view가 생성될때 isFocused 값 변경
-                        }
-                        .focused($keyboard, equals: .on)    //isFocused의 값이 .title과 같아지면 textfield focus
-                }
-                .transition(.move(edge: .bottom))
-                .animation(.easeInOut)
-                .frame(height: 750)
-                .offset(y: UIScreen.main.bounds.size.height * 0.3)
-                //.gesture(drag)
             }
         }
     }
@@ -115,6 +91,7 @@ struct TodoList: View {
         return formatter.string(from: date)
     }
 }
+
     
 
 struct TodoList_Previews: PreviewProvider {
