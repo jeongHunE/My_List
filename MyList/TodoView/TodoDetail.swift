@@ -10,6 +10,7 @@ import SwiftUI
 
 struct TodoDetail: View {
     @EnvironmentObject var modelData: ModelData
+    @State var showAlert: Bool = false
     var todo: Todo
     let impactHeavy = UIImpactFeedbackGenerator(style: .medium)
     
@@ -76,10 +77,26 @@ struct TodoDetail: View {
                 }
                 .padding(.top)
                 Spacer()
+                
+                Button("삭제") {
+                    showAlert.toggle()
+                }
+                .buttonStyle(DeleteButtonStyle())
+                .alert("정말로 삭제할까요?", isPresented: $showAlert) {
+                    HStack {
+                        Button("확인") {
+                            modelData.todoList.remove(at: todoIndex)
+                        }
+                        Button("취소") {}
+                    }
+                }
             }
             .padding()
             .navigationTitle("자세히 보기")
             .navigationBarTitleDisplayMode(.inline)
+            .background(
+                Color(red: 247 / 255, green: 247 / 255, blue: 245 / 255)
+            )
         } else {
             EmptyView()
         }
