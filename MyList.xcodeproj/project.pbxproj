@@ -21,7 +21,7 @@
 		5C92B7C229757B7600EF8572 /* TodoList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C92B7C129757B7600EF8572 /* TodoList.swift */; };
 		5C92B7C929757B9100EF8572 /* SampleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C92B7C729757B9100EF8572 /* SampleData.swift */; };
 		5C92B7CB297587BF00EF8572 /* TodoDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C92B7CA297587BF00EF8572 /* TodoDetail.swift */; };
-		5CE77B7929960D65000681C5 /* AddButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE77B7829960D65000681C5 /* AddButtonStyle.swift */; };
+		5CE77B7929960D65000681C5 /* ButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE77B7829960D65000681C5 /* ButtonStyle.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,7 +40,7 @@
 		5C92B7C129757B7600EF8572 /* TodoList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TodoList.swift; sourceTree = "<group>"; };
 		5C92B7C729757B9100EF8572 /* SampleData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SampleData.swift; sourceTree = "<group>"; };
 		5C92B7CA297587BF00EF8572 /* TodoDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoDetail.swift; sourceTree = "<group>"; };
-		5CE77B7829960D65000681C5 /* AddButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddButtonStyle.swift; sourceTree = "<group>"; };
+		5CE77B7829960D65000681C5 /* ButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonStyle.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,7 +54,7 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		5C6FF30D297D6260009F9020 /* View */ = {
+		5C6FF30D297D6260009F9020 /* TodoView */ = {
 			isa = PBXGroup;
 			children = (
 				5C92B7C129757B7600EF8572 /* TodoList.swift */,
@@ -65,7 +65,7 @@
 				5C6FF3142980D3D0009F9020 /* BackgroundImage.swift */,
 				5C49BA722987E6B900B96C2B /* ImportantButton.swift */,
 			);
-			path = View;
+			path = TodoView;
 			sourceTree = "<group>";
 		};
 		5C92B7A729757B6700EF8572 = {
@@ -88,8 +88,8 @@
 			isa = PBXGroup;
 			children = (
 				5CE77B7729960D50000681C5 /* Style */,
-				5C6FF30D297D6260009F9020 /* View */,
-				5C92B7C529757B9100EF8572 /* Model */,
+				5C6FF30D297D6260009F9020 /* TodoView */,
+				5C92B7C529757B9100EF8572 /* TodoModel */,
 				5C92B7B329757B6700EF8572 /* MyListApp.swift */,
 				5C92B7B529757B6700EF8572 /* ContentView.swift */,
 				5C92B7B729757B6800EF8572 /* Assets.xcassets */,
@@ -106,20 +106,20 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
-		5C92B7C529757B9100EF8572 /* Model */ = {
+		5C92B7C529757B9100EF8572 /* TodoModel */ = {
 			isa = PBXGroup;
 			children = (
 				5C2C5300298E6C1A00ECF578 /* KeyboardExtension.swift */,
 				5C92B7C729757B9100EF8572 /* SampleData.swift */,
 				5C6FF30B297D5D22009F9020 /* ModelData.swift */,
 			);
-			path = Model;
+			path = TodoModel;
 			sourceTree = "<group>";
 		};
 		5CE77B7729960D50000681C5 /* Style */ = {
 			isa = PBXGroup;
 			children = (
-				5CE77B7829960D65000681C5 /* AddButtonStyle.swift */,
+				5CE77B7829960D65000681C5 /* ButtonStyle.swift */,
 			);
 			path = Style;
 			sourceTree = "<group>";
@@ -194,7 +194,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5CE77B7929960D65000681C5 /* AddButtonStyle.swift in Sources */,
+				5CE77B7929960D65000681C5 /* ButtonStyle.swift in Sources */,
 				5C92B7CB297587BF00EF8572 /* TodoDetail.swift in Sources */,
 				5C92B7C229757B7600EF8572 /* TodoList.swift in Sources */,
 				5C92B7C929757B9100EF8572 /* SampleData.swift in Sources */,

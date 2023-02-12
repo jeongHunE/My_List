@@ -11,6 +11,7 @@ import SwiftUI
 struct TodoDetail: View {
     @EnvironmentObject var modelData: ModelData
     @State var showAlert: Bool = false
+    @Binding var showDetail: Bool
     var todo: Todo
     let impactHeavy = UIImpactFeedbackGenerator(style: .medium)
     
@@ -30,8 +31,8 @@ struct TodoDetail: View {
                     TextField(todo.title,
                               text: $modelData.todoList[todoIndex].title,
                               axis: .vertical)    //aixs: multiline
-                        .font(.title2)
-                        .strikethrough(modelData.todoList[todoIndex].completed)    //취소선
+                    .font(.title2)
+                    .strikethrough(modelData.todoList[todoIndex].completed)    //취소선
                     Spacer()
                     ImportantButton(isSet: $modelData.todoList[todoIndex].isImportant)
                         .onTapGesture {
@@ -86,10 +87,12 @@ struct TodoDetail: View {
                     HStack {
                         Button("확인") {
                             modelData.todoList.remove(at: todoIndex)
+                            showDetail.toggle()
                         }
                         Button("취소") {}
                     }
                 }
+                .padding(.bottom, -20)
             }
             .padding()
             .navigationTitle("자세히 보기")
@@ -112,7 +115,7 @@ struct TodoDetail: View {
 
 struct TodoDetail_Previews: PreviewProvider {
     static var previews: some View {
-        TodoDetail(todo: ModelData().todoList[0])
+        TodoDetail(showDetail: .constant(true), todo: ModelData().todoList[0])
             .environmentObject(ModelData())
     }
 }

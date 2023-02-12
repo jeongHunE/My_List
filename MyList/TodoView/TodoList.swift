@@ -14,6 +14,7 @@ struct TodoList: View {
     @EnvironmentObject var modelData: ModelData
     @State private var showNew: Bool = false
     @FocusState var keyboard: KeyBoard?   //text field에 focuse를 주기 위한 속성
+    @State private var showDetail: Bool = false
     
     var body: some View {
         NavigationView {
@@ -22,7 +23,7 @@ struct TodoList: View {
                     ZStack {
                         //navigation link
                         //to remove arrow, overlay the HStack over the navigationlink label
-                        NavigationLink(destination: TodoDetail(todo: todo), label: {})
+                        NavigationLink(destination: TodoDetail(showDetail: $showDetail,todo: todo), isActive: $showDetail, label: {})
                             .opacity(0.0)    //투명도
                         ListRow(todo: $todo)
                     }
@@ -39,13 +40,15 @@ struct TodoList: View {
                             bottom: 5,
                             trailing: 5
                         )
-                    )
+                        )
                 )
             }
-            .navigationTitle (
-                Text("Todo List")
-            )
+            .navigationBarTitle ("Todo List")
             .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Image(systemName: "ellipsis")
+                        .font(.body)
+                }
                 ToolbarItem(placement: .bottomBar) {
                     Button("새로운 Todo 추가") {
                         showNew.toggle()
@@ -58,20 +61,6 @@ struct TodoList: View {
                             .focused($keyboard, equals: .on)    //isFocused의 값이 .title과 같아지면 textfield focus
                     })
                     .buttonStyle(AddButtonStyle())
-                }
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Image(systemName: "ellipsis.circle")                    .font(.title2)
-                }
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Image(systemName: "line.3.horizontal")
-                        .font(.title2)
-                    /*Menu(content: {
-                        Text("1")
-                        Text("2")
-                    }, label: {
-                        Image(systemName: "line.3.horizontal")
-                        .font(.title2)
-                    })*/
                 }
             }
             .background(
