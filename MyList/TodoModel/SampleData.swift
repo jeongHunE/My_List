@@ -8,5 +8,4 @@
 import Foundation
 
 //sample data
-var firstTodo: Todo = Todo(title: "SwiftUI 공부하기", description: "테스트 문장입니다.\n테스트 문장입니다.", completed: false, showDate: false, date: Date(), id: UUID(), isImportant: true)
-var secondTodo: Todo = Todo(title: "알고리즘 공부하기", description: "", completed: false, showDate: true, date: Date(), id: UUID(), isImportant: false)
+var firstTodo: Todo = Todo(title: "할일은 여기에 표시됩니다.", description: "간단한 메모 작성이 가능합니다.", completed: false, showDate: false, endDate: Date(), id: UUID(), addDate: Date(), isImportant: true)

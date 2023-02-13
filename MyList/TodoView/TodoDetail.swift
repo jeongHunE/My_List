@@ -55,7 +55,7 @@ struct TodoDetail: View {
                         
                         if todo.showDate {
                             DatePicker("",
-                                       selection: $modelData.todoList[todoIndex].date,
+                                       selection: $modelData.todoList[todoIndex].endDate,
                                        displayedComponents: [.date, .hourAndMinute]
                             )
                         }

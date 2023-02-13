@@ -1,5 +1,5 @@
 //
-//  ModelDAta.swift
+//  ModelData.swift
 //  MyList
 //
 //  Created by 이정훈 on 2023/01/22.
@@ -19,8 +19,9 @@ struct Todo: Hashable, Identifiable, Codable {
     var description: String    //메모
     var completed: Bool        //완료 여부
     var showDate: Bool         //날짜 선택 여부
-    var date: Date             //날짜
+    var endDate: Date          //종료 날짜
     var id: UUID               //swift에서 제공하는 identifiable한 id
+    var addDate: Date          //추가한 날짜
     var isImportant: Bool      //별 표시 여부
 }
 

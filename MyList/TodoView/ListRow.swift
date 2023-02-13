@@ -8,52 +8,62 @@
 import SwiftUI
 
 struct ListRow: View {
-    @Binding var todo: Todo
+    @EnvironmentObject var modelData: ModelData
+    var todo: Todo
     let impactHeavy = UIImpactFeedbackGenerator(style: .medium)    //haptic feedback
     
+    var todoIndex: Int? {
+        return modelData.todoList.firstIndex(where: { $0.id == todo.id})
+    }
+    
     var body: some View {
-        HStack {
-            //complete button
-            CompletedButton(isCompleted: $todo.completed)
-                .onTapGesture {    //touch event
-                    todo.completed.toggle()
-                    impactHeavy.impactOccurred()    //haptic feedback
-                }
+        if let todoIndex = todoIndex {
             HStack {
-                VStack(alignment: .leading) {
-                    Text(todo.title)
-                        .font(.title2)
-                        .padding(.bottom, 1)
-                        .foregroundColor(.black)
-                        .strikethrough(todo.completed)
-                    
-                    if todo.showDate {
-                        HStack {
-                            Image(systemName: "calendar")
-                            Text(endTime(todo.date))
-                        }
-                        .font(.footnote)
-                        .foregroundColor(.black)
-                    } else {
-                        HStack {
-                            Image(systemName: "calendar")
-                            Text("-")
-                                .foregroundColor(.black)
-                        }
-                        .font(.footnote)
-                        .foregroundColor(.black)
+                //complete button
+                CompletedButton(isCompleted: $modelData.todoList[todoIndex].completed)
+                    .onTapGesture {    //touch event
+                        modelData.todoList[todoIndex].completed.toggle()
+                        impactHeavy.impactOccurred()    //haptic feedback
                     }
+                HStack {
+                    VStack(alignment: .leading) {
+                        Text(todo.title)
+                            .font(.title2)
+                            .padding(.bottom, 1)
+                            .foregroundColor(.black)
+                            .strikethrough(todo.completed)
+                        
+                        if todo.showDate {
+                            HStack {
+                                Image(systemName: "calendar")
+                                Text(endTime(todo.endDate))
+                            }
+                            .font(.footnote)
+                            .foregroundColor(.black)
+                        } else {
+                            HStack {
+                                Image(systemName: "calendar")
+                                Text("-")
+                                    .foregroundColor(.black)
+                            }
+                            .font(.footnote)
+                            .foregroundColor(.black)
+                        }
+                    }
+                    Spacer()
                 }
-                Spacer()
+                .padding(.leading, 8)
+                
+                //important button
+                ImportantButton(isSet: $modelData.todoList[todoIndex].isImportant)
+                    .onTapGesture {
+                        modelData.todoList[todoIndex].isImportant.toggle()
+                        impactHeavy.impactOccurred()    //haptic feedback
+                    }
             }
-            .padding(.leading, 8)
-            
-            //important button
-            ImportantButton(isSet: $todo.isImportant)
-                .onTapGesture {
-                    todo.isImportant.toggle()
-                    impactHeavy.impactOccurred()    //haptic feedback
-                }
+        }
+        else {
+            EmptyView()
         }
     }
 }
@@ -67,6 +77,7 @@ func endTime(_ date: Date) -> String {
 
 struct ListRow_Previews: PreviewProvider {
     static var previews: some View {
-        ListRow(todo: .constant(ModelData().todoList[0]))
+        ListRow(todo: ModelData().todoList[0])
+            .environmentObject(ModelData())
     }
 }

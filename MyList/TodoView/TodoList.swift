@@ -10,22 +10,40 @@ enum KeyBoard {
     case on, off
 }
 
+enum Sorting: String, CaseIterable {
+    case end_date = "종료시간"
+    case importance = "중요도"
+    case add_date = "항목을 추가한 시간"
+}
+
 struct TodoList: View {
     @EnvironmentObject var modelData: ModelData
     @State private var showNew: Bool = false
     @FocusState var keyboard: KeyBoard?   //text field에 focuse를 주기 위한 속성
     @State private var showDetail: Bool = false
+    @State private var seletedSort: Sorting = .add_date
+    
+    var sortedTodoList: [Todo] {
+        switch seletedSort {
+        case .add_date:
+            return modelData.todoList.sorted(by: {$0.addDate < $1.addDate})
+        case .importance:
+            return modelData.todoList.filter { $0.isImportant }
+        case .end_date:
+            return modelData.todoList.filter{ $0.showDate }.sorted(by: {$0.endDate < $1.endDate}) + modelData.todoList.filter{ !$0.showDate }
+        }
+    }
     
     var body: some View {
         NavigationView {
             List {
-                ForEach($modelData.todoList) { $todo in
+                ForEach(sortedTodoList) { todo in
                     ZStack {
                         //navigation link
                         //to remove arrow, overlay the HStack over the navigationlink label
-                        NavigationLink(destination: TodoDetail(showDetail: $showDetail,todo: todo), isActive: $showDetail, label: {})
+                        NavigationLink(destination: TodoDetail(showDetail: $showDetail, todo: todo), label: {})
                             .opacity(0.0)    //투명도
-                        ListRow(todo: $todo)
+                        ListRow(todo: todo)
                     }
                 }
                 .onDelete(perform: removeRows)    //remove row when slide a row
@@ -40,14 +58,19 @@ struct TodoList: View {
                             bottom: 5,
                             trailing: 5
                         )
-                        )
+                    )
                 )
             }
             .navigationBarTitle ("Todo List")
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Image(systemName: "ellipsis")
-                        .font(.body)
+                    /*Image(systemName: "ellipsis")
+                        .font(.body)*/
+                    Picker("정렬", selection: $seletedSort) {
+                        ForEach(Sorting.allCases, id: \.self) {
+                            Text($0.rawValue)
+                        }
+                    }
                 }
                 ToolbarItem(placement: .bottomBar) {
                     Button("새로운 Todo 추가") {

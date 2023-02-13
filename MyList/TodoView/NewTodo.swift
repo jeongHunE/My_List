@@ -54,7 +54,7 @@ struct NewTodo: View {
             
             Divider()
             
-            TextField("메모",
+            TextField("메모 추가하기",
                       text: $description,
                       axis: .vertical)
             .font(.title3)
@@ -65,7 +65,7 @@ struct NewTodo: View {
     }
     
     func addNewTodo() {
-        let todo: Todo = Todo(title: title, description: description, completed: false, showDate: showDate, date: date, id: UUID(), isImportant: false)
+        let todo: Todo = Todo(title: title, description: description, completed: false, showDate: showDate, endDate: date, id: UUID(), addDate: Date(), isImportant: false)
         
         modelData.todoList.append(todo)
     }
