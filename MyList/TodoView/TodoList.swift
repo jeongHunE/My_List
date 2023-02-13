@@ -14,6 +14,7 @@ enum Sorting: String, CaseIterable {
     case end_date = "종료시간"
     case importance = "중요도"
     case add_date = "항목을 추가한 시간"
+    case completed = "완료된 항목"
 }
 
 struct TodoList: View {
@@ -21,7 +22,7 @@ struct TodoList: View {
     @State private var showNew: Bool = false
     @FocusState var keyboard: KeyBoard?   //text field에 focuse를 주기 위한 속성
     @State private var showDetail: Bool = false
-    @State private var seletedSort: Sorting = .add_date
+    @AppStorage("sorting") private var seletedSort: Sorting = .add_date
     
     var sortedTodoList: [Todo] {
         switch seletedSort {
@@ -31,6 +32,8 @@ struct TodoList: View {
             return modelData.todoList.filter { $0.isImportant }
         case .end_date:
             return modelData.todoList.filter{ $0.showDate }.sorted(by: {$0.endDate < $1.endDate}) + modelData.todoList.filter{ !$0.showDate }
+        case .completed:
+            return modelData.todoList.filter { $0.completed }
         }
     }
     
@@ -97,7 +100,7 @@ struct TodoList: View {
         modelData.todoList.remove(atOffsets: offsets)
     }
     
-    func today(_ date: Date) -> String {    //나중에 title 옆에 현재 날짜를 표실하기 위한 format
+    func today(_ date: Date) -> String {    //나중에 title 옆에 현재 날짜를 표시하기 위한 format
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy년 MM월 dd일 EE"
         
