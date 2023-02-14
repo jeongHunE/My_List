@@ -11,9 +11,9 @@ enum KeyBoard {
 }
 
 enum Sorting: String, CaseIterable {
-    case end_date = "종료시간"
+    case add_date = "추가한 날짜"
     case importance = "중요도"
-    case add_date = "항목을 추가한 시간"
+    case end_date = "종료시간"
     case completed = "완료된 항목"
 }
 
@@ -27,11 +27,11 @@ struct TodoList: View {
     var sortedTodoList: [Todo] {
         switch seletedSort {
         case .add_date:
-            return modelData.todoList.sorted(by: {$0.addDate < $1.addDate})
+            return modelData.todoList.sorted(by: { $0.addDate < $1.addDate })
         case .importance:
             return modelData.todoList.filter { $0.isImportant }
         case .end_date:
-            return modelData.todoList.filter{ $0.showDate }.sorted(by: {$0.endDate < $1.endDate}) + modelData.todoList.filter{ !$0.showDate }
+            return modelData.todoList.filter{ $0.showDate }.sorted(by: { $0.endDate < $1.endDate }) + modelData.todoList.filter{ !$0.showDate }
         case .completed:
             return modelData.todoList.filter { $0.completed }
         }
@@ -40,39 +40,68 @@ struct TodoList: View {
     var body: some View {
         NavigationView {
             List {
-                ForEach(sortedTodoList) { todo in
-                    ZStack {
-                        //navigation link
-                        //to remove arrow, overlay the HStack over the navigationlink label
-                        NavigationLink(destination: TodoDetail(showDetail: $showDetail, todo: todo), label: {})
-                            .opacity(0.0)    //투명도
-                        ListRow(todo: todo)
+                Section("\(seletedSort.rawValue) 순", content: {
+                    ForEach(sortedTodoList) { todo in
+                        ZStack {
+                            //navigation link
+                            //to remove arrow, overlay the HStack over the navigationlink label
+                            NavigationLink(destination: TodoDetail(showDetail: $showDetail, todo: todo), label: {})
+                                .opacity(0.0)    //투명도
+                            ListRow(todo: todo)
+                        }
                     }
-                }
-                .onDelete(perform: removeRows)    //remove row when slide a row
-                .listRowSeparator(.hidden)    //헹 분리 선 숨김
-                .listRowBackground(    //row design
-                    RoundedRectangle(cornerRadius: 10)
-                        .shadow(color: .black, radius: 0.6, x: 4, y: 3)
-                        .foregroundColor(.white)
-                        .padding(EdgeInsets(
-                            top: 2,
-                            leading: 5,
-                            bottom: 5,
-                            trailing: 5
+                    .onDelete(perform: removeRows)    //remove row when slide a row
+                    .listRowSeparator(.hidden)    //헹 분리 선 숨김
+                    .listRowBackground(    //row design
+                        RoundedRectangle(cornerRadius: 10)
+                            .shadow(color: .black, radius: 0.6, x: 4, y: 3)
+                            .foregroundColor(.white)
+                            .padding(EdgeInsets(
+                                top: 2,
+                                leading: 5,
+                                bottom: 5,
+                                trailing: 5
+                            )
                         )
                     )
-                )
+                })
             }
+            .listStyle(DefaultListStyle())
             .navigationBarTitle ("Todo List")
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    /*Image(systemName: "ellipsis")
-                        .font(.body)*/
-                    Picker("정렬", selection: $seletedSort) {
-                        ForEach(Sorting.allCases, id: \.self) {
-                            Text($0.rawValue)
+                    Menu {
+                        Picker("정렬", selection: $seletedSort) {
+                            /*ForEach(Sorting.allCases, id: \.self) {
+                                Text($0.rawValue)
+                            }*/
+                            HStack {
+                                Image(systemName: "calendar")
+                                Text(Sorting.add_date.rawValue)
+                            }
+                            .tag(Sorting.add_date)
+                            
+                            HStack {
+                                Image(systemName: "star.fill")
+                                Text(Sorting.importance.rawValue)
+                            }
+                            .tag(Sorting.importance)
+                            
+                            HStack {
+                                Image(systemName: "timer")
+                                Text(Sorting.end_date.rawValue)
+                            }
+                            .tag(Sorting.end_date)
+                            HStack {
+                                Image(systemName: "checklist.checked")
+                                Text(Sorting.completed.rawValue)
+                            }
+                            .tag(Sorting.completed)
                         }
+                    } label: {
+                        Image(systemName: "arrow.up.arrow.down.circle")
+                            .font(.title3)
+                            .foregroundColor(.black)
                     }
                 }
                 ToolbarItem(placement: .bottomBar) {
@@ -97,7 +126,15 @@ struct TodoList: View {
     }
     
     func removeRows(at offsets: IndexSet) -> Void {
-        modelData.todoList.remove(atOffsets: offsets)
+        for i in offsets {
+            for j in 0..<modelData.todoList.count {
+                print(j)
+                if sortedTodoList[i] == modelData.todoList[j] {
+                    modelData.todoList.remove(at: j)
+                    break
+                }
+            }
+        }
     }
     
     func today(_ date: Date) -> String {    //나중에 title 옆에 현재 날짜를 표시하기 위한 format

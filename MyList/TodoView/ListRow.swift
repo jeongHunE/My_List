@@ -28,7 +28,7 @@ struct ListRow: View {
                 HStack {
                     VStack(alignment: .leading) {
                         Text(todo.title)
-                            .font(.title2)
+                            .font(.title3)
                             .padding(.bottom, 1)
                             .foregroundColor(.black)
                             .strikethrough(todo.completed)
