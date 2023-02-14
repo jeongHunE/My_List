@@ -31,3 +31,5 @@
 - 데이터 저장
   - user 데이터 저장: `FileManager`
   - 앱 설정 값 저장: `UserDefault`, `@AppStorage` property wrapper
+- design pattern
+  - `MVVM`(Model-View-View Model)

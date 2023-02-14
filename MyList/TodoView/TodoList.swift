@@ -128,7 +128,6 @@ struct TodoList: View {
     func removeRows(at offsets: IndexSet) -> Void {
         for i in offsets {
             for j in 0..<modelData.todoList.count {
-                print(j)
                 if sortedTodoList[i] == modelData.todoList[j] {
                     modelData.todoList.remove(at: j)
                     break
